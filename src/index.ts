@@ -103,9 +103,12 @@ class KUSDKeeper {
       await this.flapMonitor.start();
       await this.flopMonitor.start();
 
-      // Initialize Peg Keeper (if mode is 'full' or 'peg')
-      if (this.config.mode === 'full' || this.config.mode === 'peg') {
+      // Initialize Peg Keeper (if mode is 'full' or 'peg' AND peg arb is enabled)
+      if ((this.config.mode === 'full' || this.config.mode === 'peg') && this.config.enablePegArb) {
         await this.pegKeeperService.initialize();
+        logger.info('Peg arbitrage enabled');
+      } else if (this.config.mode === 'full' || this.config.mode === 'peg') {
+        logger.info('Peg arbitrage disabled via ENABLE_PEG_ARB=false');
       }
 
       // Start periodic checks
@@ -262,12 +265,8 @@ class KUSDKeeper {
         }
       }
 
-      // Check Peg (if mode is 'full' or 'peg')
-      if (this.config.mode === 'full' || this.config.mode === 'peg') {
-        // We use a separate interval logic or just check every cycle.
-        // For simplicity, check every cycle but respect a timestamp if needed.
-        // The config has pegCheckInterval, but the main loop runs on checkInterval.
-        // We'll just run it here.
+      // Check Peg (if mode is 'full' or 'peg' AND peg arb is enabled)
+      if ((this.config.mode === 'full' || this.config.mode === 'peg') && this.config.enablePegArb) {
         const result = await this.pegKeeperService.checkAndArbitrage();
         if (result.executed) {
           this.health.pegArbsExecuted++;

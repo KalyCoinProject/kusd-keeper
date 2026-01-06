@@ -65,6 +65,13 @@ export function loadConfig(): KeeperConfig {
     pegLowerLimit: parseFloat(process.env.PEG_LOWER_LIMIT || '0.99'),
     pegCheckInterval: parseInt(process.env.PEG_CHECK_INTERVAL || '10000'),
 
+    // Peg Keeper arbitrage limits
+    enablePegArb: process.env.ENABLE_PEG_ARB !== 'false',                  // Default: true (enabled)
+    maxArbAmount: BigInt(process.env.MAX_ARB_AMOUNT || '10000000'),        // Default: 10 USDC (6 decimals)
+    minArbProfitPercentage: parseFloat(process.env.MIN_ARB_PROFIT_PERCENTAGE || '0.5'), // Default: 0.5%
+    arbSlippageTolerance: parseFloat(process.env.ARB_SLIPPAGE_TOLERANCE || '0.005'),    // Default: 0.5%
+    arbCooldownMs: parseInt(process.env.ARB_COOLDOWN_MS || '300000'),      // Default: 5 minutes
+
     // Keeper settings
     mode,
     checkInterval: parseInt(process.env.CHECK_INTERVAL || '30000'),

@@ -122,6 +122,13 @@ export interface KeeperConfig {
   pegLowerLimit: number;
   pegCheckInterval: number;
 
+  // Peg Keeper arbitrage limits
+  enablePegArb: boolean;          // Enable/disable peg arbitrage
+  maxArbAmount: bigint;           // Max USDC to trade per cycle (6 decimals)
+  minArbProfitPercentage: number; // Minimum profit % to execute arb
+  arbSlippageTolerance: number;   // Slippage tolerance (e.g., 0.005 = 0.5%)
+  arbCooldownMs: number;          // Cooldown between arb trades in milliseconds
+
   // Keeper settings
   mode: KeeperMode;
   checkInterval: number;
