@@ -128,6 +128,7 @@ export interface KeeperConfig {
   minArbProfitPercentage: number; // Minimum profit % to execute arb
   arbSlippageTolerance: number;   // Slippage tolerance (e.g., 0.005 = 0.5%)
   arbCooldownMs: number;          // Cooldown between arb trades in milliseconds
+  maxTradePercentOfPool: number;  // Max % of pool to trade per arb (e.g., 10 = 10%)
 
   // Keeper settings
   mode: KeeperMode;

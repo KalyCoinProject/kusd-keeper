@@ -71,6 +71,7 @@ export function loadConfig(): KeeperConfig {
     minArbProfitPercentage: parseFloat(process.env.MIN_ARB_PROFIT_PERCENTAGE || '0.5'), // Default: 0.5%
     arbSlippageTolerance: parseFloat(process.env.ARB_SLIPPAGE_TOLERANCE || '0.005'),    // Default: 0.5%
     arbCooldownMs: parseInt(process.env.ARB_COOLDOWN_MS || '300000'),      // Default: 5 minutes
+    maxTradePercentOfPool: parseInt(process.env.MAX_TRADE_PERCENT_OF_POOL || '10'),     // Default: 10%
 
     // Keeper settings
     mode,

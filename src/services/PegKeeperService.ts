@@ -33,7 +33,6 @@ const PAIR_ABI = [
 
 // Safety constants
 const MIN_POOL_LIQUIDITY_USD = 5n * 1000000n; // 5 USDC minimum (6 decimals) - lowered for testing
-const MAX_TRADE_PERCENT_OF_POOL = 10; // Max 10% of pool per trade
 
 
 
@@ -66,6 +65,7 @@ export class PegKeeperService {
             minProfitPct: `${config.minArbProfitPercentage}%`,
             slippageTolerance: `${config.arbSlippageTolerance * 100}%`,
             cooldownMs: `${config.arbCooldownMs / 1000}s`,
+            maxTradePercentOfPool: `${config.maxTradePercentOfPool}%`,
         });
     }
 
@@ -128,7 +128,7 @@ export class PegKeeperService {
             }
 
             // Calculate max safe trade size (% of pool)
-            const maxSafeTradeSize = (liquidity.usdcReserve * BigInt(MAX_TRADE_PERCENT_OF_POOL)) / 100n;
+            const maxSafeTradeSize = (liquidity.usdcReserve * BigInt(this.config.maxTradePercentOfPool)) / 100n;
 
             if (price > this.config.pegUpperLimit) {
                 logger.info(`Price $${price.toFixed(4)} > ${this.config.pegUpperLimit}, deviation ${deviationPct.toFixed(2)}%, attempting arb (Mint KUSD -> Sell on DEX)`);
@@ -217,7 +217,7 @@ export class PegKeeperService {
 
         // Also cap by pool liquidity limit
         if (amountIn > maxPoolTradeSize) {
-            logger.info(`Capping trade to ${ethers.formatUnits(maxPoolTradeSize, 6)} USDC (${MAX_TRADE_PERCENT_OF_POOL}% of pool)`);
+            logger.info(`Capping trade to ${ethers.formatUnits(maxPoolTradeSize, 6)} USDC (${this.config.maxTradePercentOfPool}% of pool)`);
             amountIn = maxPoolTradeSize;
         }
 
@@ -307,7 +307,7 @@ export class PegKeeperService {
 
         // Cap by pool liquidity limit
         if (amountIn > maxPoolTradeSize) {
-            logger.info(`Capping trade to ${ethers.formatUnits(maxPoolTradeSize, 6)} USDC (${MAX_TRADE_PERCENT_OF_POOL}% of pool)`);
+            logger.info(`Capping trade to ${ethers.formatUnits(maxPoolTradeSize, 6)} USDC (${this.config.maxTradePercentOfPool}% of pool)`);
             amountIn = maxPoolTradeSize;
         }
 
