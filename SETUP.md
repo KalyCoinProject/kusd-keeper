@@ -66,7 +66,7 @@ DEX_ROUTER_ADDRESS=0x...  # KalySwap router
 DEX_PAIR_ADDRESS=0x...    # KUSD/USDC pair on KalySwap
 
 # PSM address
-PSM_ADDRESS=0xF61448725934d38b7fF94f9162AEed729486de35
+PSM_ADDRESS=0x3c7cd619652181560169321c94a7ade274b60e38
 
 # Trading limits
 MAX_ARB_AMOUNT=10000000          # Max USDC per trade (6 decimals = 10 USDC)
